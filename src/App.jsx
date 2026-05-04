@@ -86,6 +86,8 @@ const STEPS = [
   { number: '03', title: 'You Focus', description: 'Small tasks vanish. Repetitive work disappears. You spend time on what actually matters.' },
 ]
 
+const INSTALL_COMMAND = 'PASTE COMMAND HERE'
+
 const SOCIAL_ICONS = {
   linkedin: (
     <svg viewBox="0 0 24 24" fill="currentColor" className="w-5 h-5">
@@ -130,6 +132,7 @@ const NAV_LINKS = ['Features', 'How It Works', 'About']
 export default function App() {
   const [scrolled, setScrolled] = useState(false)
   const [mobileOpen, setMobileOpen] = useState(false)
+  const [commandCopied, setCommandCopied] = useState(false)
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 20)
@@ -140,6 +143,25 @@ export default function App() {
   const scrollTo = (id) => {
     setMobileOpen(false)
     document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' })
+  }
+
+  const copyInstallCommand = async () => {
+    try {
+      await navigator.clipboard.writeText(INSTALL_COMMAND)
+    } catch {
+      const textarea = document.createElement('textarea')
+      textarea.value = INSTALL_COMMAND
+      textarea.setAttribute('readonly', '')
+      textarea.style.position = 'fixed'
+      textarea.style.opacity = '0'
+      document.body.appendChild(textarea)
+      textarea.select()
+      document.execCommand('copy')
+      document.body.removeChild(textarea)
+    }
+
+    setCommandCopied(true)
+    window.setTimeout(() => setCommandCopied(false), 1600)
   }
 
   return (
@@ -318,6 +340,53 @@ export default function App() {
               </RevealSection>
             ))}
           </div>
+        </div>
+      </section>
+
+      {/* Terminal Install */}
+      <section className="py-24 px-6 bg-black">
+        <div className="max-w-4xl mx-auto">
+          <RevealSection className="text-center mb-10">
+            <h2 className="text-3xl md:text-5xl font-bold tracking-tight">
+              What are you waiting for? Your future self will thank you.
+            </h2>
+          </RevealSection>
+
+          <RevealSection>
+            <div className="overflow-hidden rounded-2xl border border-white/[0.1] bg-[#060a12] shadow-[0_28px_110px_rgba(58,122,191,0.14)]">
+              <div className="h-11 border-b border-white/[0.08] bg-white/[0.04] px-4 grid grid-cols-[1fr_auto_1fr] items-center">
+                <div className="flex items-center gap-2">
+                  <span className="h-3 w-3 rounded-full bg-[#ff5f57]" />
+                  <span className="h-3 w-3 rounded-full bg-[#ffbd2e]" />
+                  <span className="h-3 w-3 rounded-full bg-[#28c840]" />
+                </div>
+                <span className="text-xs font-light text-white/35">Terminal</span>
+                <div />
+              </div>
+
+              <div className="flex flex-col sm:flex-row sm:items-center gap-4 p-5 md:p-6">
+                <div className="min-w-0 flex-1 flex items-center gap-3 rounded-xl border border-white/[0.06] bg-black/60 px-4 py-3">
+                  <span className="font-mono text-sm text-[#6aacdf]">$</span>
+                  <code className="min-w-0 flex-1 overflow-x-auto whitespace-nowrap font-mono text-sm md:text-base text-white/90">
+                    {INSTALL_COMMAND}
+                  </code>
+                </div>
+
+                <button
+                  type="button"
+                  onClick={copyInstallCommand}
+                  className="shrink-0 inline-flex items-center justify-center gap-2 rounded-xl border border-white/[0.1] bg-white/[0.06] px-4 py-3 text-sm font-medium text-white/85 transition-colors hover:bg-white/[0.1] hover:text-white cursor-pointer"
+                  aria-label="Copy install command"
+                >
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" className="h-4 w-4" aria-hidden="true">
+                    <rect x="9" y="9" width="10" height="10" rx="2" />
+                    <path d="M5 15V7a2 2 0 0 1 2-2h8" />
+                  </svg>
+                  {commandCopied ? 'Copied' : 'Copy'}
+                </button>
+              </div>
+            </div>
+          </RevealSection>
         </div>
       </section>
 
