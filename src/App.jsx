@@ -355,10 +355,23 @@ export default function App() {
           <RevealSection>
             <div className="overflow-hidden rounded-2xl border border-white/[0.1] bg-[#060a12] shadow-[0_28px_110px_rgba(58,122,191,0.14)]">
               <div className="h-11 border-b border-white/[0.08] bg-white/[0.04] px-4 grid grid-cols-[1fr_auto_1fr] items-center">
-                <div className="flex items-center gap-2">
-                  <span className="h-3 w-3 rounded-full bg-[#ff5f57]" />
-                  <span className="h-3 w-3 rounded-full bg-[#ffbd2e]" />
-                  <span className="h-3 w-3 rounded-full bg-[#28c840]" />
+                <div className="group flex items-center gap-2" aria-hidden="true">
+                  <span className="relative inline-flex h-3 w-3 items-center justify-center rounded-full bg-[#ff5f57]">
+                    <svg viewBox="0 0 8 8" fill="none" stroke="currentColor" strokeWidth="1.4" className="h-2 w-2 text-black/55 opacity-0 transition-opacity group-hover:opacity-100">
+                      <path d="M2 2l4 4M6 2 2 6" />
+                    </svg>
+                  </span>
+                  <span className="relative inline-flex h-3 w-3 items-center justify-center rounded-full bg-[#ffbd2e]">
+                    <svg viewBox="0 0 8 8" fill="none" stroke="currentColor" strokeWidth="1.4" className="h-2 w-2 text-black/55 opacity-0 transition-opacity group-hover:opacity-100">
+                      <path d="M2 4h4" />
+                    </svg>
+                  </span>
+                  <span className="relative inline-flex h-3 w-3 items-center justify-center rounded-full bg-[#28c840]">
+                    <svg viewBox="0 0 8 8" fill="currentColor" className="h-2 w-2 text-black/55 opacity-0 transition-opacity group-hover:opacity-100">
+                      <path d="M1 1h3L1 4z" />
+                      <path d="M7 7H4l3-3z" />
+                    </svg>
+                  </span>
                 </div>
                 <span className="text-xs font-light text-white/35">Terminal</span>
                 <div />
