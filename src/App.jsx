@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from 'react'
+import { motion } from 'framer-motion'
 
 function useScrollReveal() {
   const ref = useRef(null)
@@ -31,6 +32,99 @@ function RevealSection({ children, className = '', delay = 0 }) {
       }}
     >
       {children}
+    </div>
+  )
+}
+
+function HeroLight() {
+  const dur = 1.8
+  const ease = [0.16, 1, 0.3, 1]
+
+  return (
+    <div className="absolute inset-0 z-0 overflow-hidden">
+      {/* Core light bar — bright thin line at top */}
+      <motion.div
+        className="absolute top-0 left-1/2 h-[3px] rounded-full"
+        style={{
+          x: '-50%',
+          background:
+            'linear-gradient(90deg, transparent 0%, rgba(120,190,245,0.3) 8%, rgba(160,215,255,0.85) 30%, #c0e4ff 50%, rgba(160,215,255,0.85) 70%, rgba(120,190,245,0.3) 92%, transparent 100%)',
+          boxShadow:
+            '0 0 12px 2px rgba(140,200,255,0.5), 0 0 40px 6px rgba(80,155,225,0.25)',
+        }}
+        initial={{ width: 0 }}
+        animate={{ width: '66vw' }}
+        transition={{ duration: dur, ease }}
+      />
+
+      {/* Bar halo — soft bloom around source */}
+      <motion.div
+        className="absolute top-[-6px] left-1/2 h-[14px] rounded-full blur-[6px]"
+        style={{
+          x: '-50%',
+          background:
+            'linear-gradient(90deg, transparent 5%, rgba(100,175,240,0.35) 25%, rgba(140,200,250,0.5) 50%, rgba(100,175,240,0.35) 75%, transparent 95%)',
+        }}
+        initial={{ width: 0, opacity: 0 }}
+        animate={{ width: '66vw', opacity: 1 }}
+        transition={{ duration: dur, ease }}
+      />
+
+      {/* Near emission — hot glow right below bar */}
+      <motion.div
+        className="absolute top-0 left-1/2 blur-[35px]"
+        style={{
+          x: '-50%',
+          height: '10rem',
+          background:
+            'linear-gradient(180deg, rgba(90,165,230,0.5) 0%, rgba(50,115,185,0.15) 65%, transparent 100%)',
+        }}
+        initial={{ width: 0, opacity: 0 }}
+        animate={{ width: '52vw', opacity: 1 }}
+        transition={{ duration: dur * 1.05, ease, delay: 0.05 }}
+      />
+
+      {/* Mid cone — main illumination spread */}
+      <motion.div
+        className="absolute top-0 left-1/2 blur-[80px]"
+        style={{
+          x: '-50%',
+          height: '30rem',
+          background:
+            'radial-gradient(ellipse 100% 100% at 50% 0%, rgba(25,70,125,0.5) 0%, rgba(14,45,85,0.18) 55%, transparent 85%)',
+        }}
+        initial={{ width: 0, opacity: 0 }}
+        animate={{ width: '58vw', opacity: 1 }}
+        transition={{ duration: dur * 1.2, ease, delay: 0.1 }}
+      />
+
+      {/* Far reach — subtle glow reaching headline area */}
+      <motion.div
+        className="absolute top-0 left-1/2 blur-[120px]"
+        style={{
+          x: '-50%',
+          height: '58vh',
+          background:
+            'radial-gradient(ellipse 100% 80% at 50% 5%, rgba(12,36,68,0.45) 0%, rgba(8,24,48,0.15) 50%, transparent 80%)',
+        }}
+        initial={{ width: 0, opacity: 0 }}
+        animate={{ width: '68vw', opacity: 1 }}
+        transition={{ duration: dur * 1.4, ease, delay: 0.15 }}
+      />
+
+      {/* Ambient wash — widest, subtlest layer */}
+      <motion.div
+        className="absolute top-0 left-1/2 blur-[160px]"
+        style={{
+          x: '-50%',
+          height: '72vh',
+          background:
+            'radial-gradient(ellipse 100% 65% at 50% 5%, rgba(6,18,38,0.35) 0%, transparent 65%)',
+        }}
+        initial={{ width: 0, opacity: 0 }}
+        animate={{ width: '80vw', opacity: 1 }}
+        transition={{ duration: dur * 1.6, ease, delay: 0.25 }}
+      />
     </div>
   )
 }
@@ -229,16 +323,7 @@ export default function App() {
 
       {/* ── Hero ── */}
       <section id="hero" className="relative min-h-screen flex items-center justify-center px-6 pt-16 overflow-hidden">
-        <div
-          className="absolute inset-0 z-0"
-          style={{
-            background: [
-              'radial-gradient(circle at 50% 43%, rgba(112,178,240,0.48) 0%, rgba(72,135,205,0.34) 18%, rgba(34,86,145,0.24) 38%, rgba(14,42,78,0.14) 56%, transparent 76%)',
-              'radial-gradient(ellipse 66% 52% at 50% 46%, rgba(14,42,76,0.74) 0%, rgba(10,28,54,0.46) 44%, rgba(5,14,28,0.18) 66%, transparent 84%)',
-              'radial-gradient(ellipse 92% 70% at 50% 54%, rgba(3,9,18,0.36) 0%, transparent 72%)',
-            ].join(', '),
-          }}
-        />
+        <HeroLight />
         <div className="relative z-10 max-w-3xl text-center">
           <RevealSection>
             <img src="/Logo2.png" alt="Alfred" className="h-[36rem] w-[36rem] mx-auto -mb-6 object-contain" />
