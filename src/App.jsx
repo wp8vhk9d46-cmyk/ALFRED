@@ -39,6 +39,8 @@ function RevealSection({ children, className = '', delay = 0 }) {
 function HeroLight() {
   const dur = 1.8
   const ease = [0.16, 1, 0.3, 1]
+  const clip0 = 'inset(0 50% 0 50%)'
+  const clip1 = 'inset(0 0% 0 0%)'
 
   return (
     <div className="absolute inset-0 z-0 overflow-hidden">
@@ -46,14 +48,16 @@ function HeroLight() {
       <motion.div
         className="absolute top-0 left-1/2 h-[3px] rounded-full"
         style={{
+          width: '66vw',
           x: '-50%',
+          willChange: 'clip-path',
           background:
             'linear-gradient(90deg, transparent 0%, rgba(120,190,245,0.3) 8%, rgba(160,215,255,0.85) 30%, #c0e4ff 50%, rgba(160,215,255,0.85) 70%, rgba(120,190,245,0.3) 92%, transparent 100%)',
           boxShadow:
             '0 0 12px 2px rgba(140,200,255,0.5), 0 0 40px 6px rgba(80,155,225,0.25)',
         }}
-        initial={{ width: 0 }}
-        animate={{ width: '66vw' }}
+        initial={{ clipPath: clip0 }}
+        animate={{ clipPath: clip1 }}
         transition={{ duration: dur, ease }}
       />
 
@@ -61,12 +65,14 @@ function HeroLight() {
       <motion.div
         className="absolute top-[-6px] left-1/2 h-[14px] rounded-full blur-[6px]"
         style={{
+          width: '66vw',
           x: '-50%',
+          willChange: 'clip-path, opacity',
           background:
             'linear-gradient(90deg, transparent 5%, rgba(100,175,240,0.35) 25%, rgba(140,200,250,0.5) 50%, rgba(100,175,240,0.35) 75%, transparent 95%)',
         }}
-        initial={{ width: 0, opacity: 0 }}
-        animate={{ width: '66vw', opacity: 1 }}
+        initial={{ clipPath: clip0, opacity: 0 }}
+        animate={{ clipPath: clip1, opacity: 1 }}
         transition={{ duration: dur, ease }}
       />
 
@@ -74,55 +80,80 @@ function HeroLight() {
       <motion.div
         className="absolute top-0 left-1/2 blur-[35px]"
         style={{
+          width: '58vw',
           x: '-50%',
-          height: '10rem',
+          height: '16rem',
+          willChange: 'clip-path, opacity',
           background:
-            'linear-gradient(180deg, rgba(90,165,230,0.5) 0%, rgba(50,115,185,0.15) 65%, transparent 100%)',
+            'linear-gradient(180deg, rgba(90,165,230,0.55) 0%, rgba(50,115,185,0.2) 60%, transparent 100%)',
         }}
-        initial={{ width: 0, opacity: 0 }}
-        animate={{ width: '52vw', opacity: 1 }}
+        initial={{ clipPath: clip0, opacity: 0 }}
+        animate={{ clipPath: clip1, opacity: 1 }}
         transition={{ duration: dur * 1.05, ease, delay: 0.05 }}
       />
 
-      {/* Mid cone — main illumination spread */}
+      {/* Angled side spread — conic light rays from bar */}
+      <motion.div
+        className="absolute top-0 left-1/2"
+        style={{
+          width: '100vw',
+          x: '-50%',
+          height: '75vh',
+          willChange: 'clip-path, opacity',
+          background:
+            'conic-gradient(from 90deg at 50% 0%, transparent 0deg, rgba(18,52,95,0.25) 12deg, transparent 28deg, transparent 152deg, rgba(18,52,95,0.25) 168deg, transparent 180deg)',
+          filter: 'blur(50px)',
+        }}
+        initial={{ clipPath: clip0, opacity: 0 }}
+        animate={{ clipPath: clip1, opacity: 1 }}
+        transition={{ duration: dur * 1.2, ease, delay: 0.08 }}
+      />
+
+      {/* Mid cone — wider than bar for natural spread */}
       <motion.div
         className="absolute top-0 left-1/2 blur-[80px]"
         style={{
+          width: '82vw',
           x: '-50%',
-          height: '30rem',
+          height: '70vh',
+          willChange: 'clip-path, opacity',
           background:
-            'radial-gradient(ellipse 100% 100% at 50% 0%, rgba(25,70,125,0.5) 0%, rgba(14,45,85,0.18) 55%, transparent 85%)',
+            'radial-gradient(ellipse 100% 100% at 50% 0%, rgba(25,70,125,0.55) 0%, rgba(14,45,85,0.22) 55%, transparent 85%)',
         }}
-        initial={{ width: 0, opacity: 0 }}
-        animate={{ width: '58vw', opacity: 1 }}
+        initial={{ clipPath: clip0, opacity: 0 }}
+        animate={{ clipPath: clip1, opacity: 1 }}
         transition={{ duration: dur * 1.2, ease, delay: 0.1 }}
       />
 
-      {/* Far reach — subtle glow reaching headline area */}
+      {/* Far reach — cone widens further */}
       <motion.div
         className="absolute top-0 left-1/2 blur-[120px]"
         style={{
+          width: '96vw',
           x: '-50%',
-          height: '58vh',
+          height: '100vh',
+          willChange: 'clip-path, opacity',
           background:
-            'radial-gradient(ellipse 100% 80% at 50% 5%, rgba(12,36,68,0.45) 0%, rgba(8,24,48,0.15) 50%, transparent 80%)',
+            'radial-gradient(ellipse 100% 90% at 50% 5%, rgba(14,42,78,0.5) 0%, rgba(10,30,58,0.2) 55%, transparent 88%)',
         }}
-        initial={{ width: 0, opacity: 0 }}
-        animate={{ width: '68vw', opacity: 1 }}
+        initial={{ clipPath: clip0, opacity: 0 }}
+        animate={{ clipPath: clip1, opacity: 1 }}
         transition={{ duration: dur * 1.4, ease, delay: 0.15 }}
       />
 
-      {/* Ambient wash — widest, subtlest layer */}
+      {/* Ambient wash — widest layer, full cone */}
       <motion.div
         className="absolute top-0 left-1/2 blur-[160px]"
         style={{
+          width: '110vw',
           x: '-50%',
-          height: '72vh',
+          height: '115vh',
+          willChange: 'clip-path, opacity',
           background:
-            'radial-gradient(ellipse 100% 65% at 50% 5%, rgba(6,18,38,0.35) 0%, transparent 65%)',
+            'radial-gradient(ellipse 100% 75% at 50% 5%, rgba(8,22,44,0.4) 0%, rgba(5,14,30,0.15) 55%, transparent 72%)',
         }}
-        initial={{ width: 0, opacity: 0 }}
-        animate={{ width: '80vw', opacity: 1 }}
+        initial={{ clipPath: clip0, opacity: 0 }}
+        animate={{ clipPath: clip1, opacity: 1 }}
         transition={{ duration: dur * 1.6, ease, delay: 0.25 }}
       />
     </div>
