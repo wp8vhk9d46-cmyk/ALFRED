@@ -238,7 +238,6 @@ const CREATORS = [
     photo: '/Carlton.png',
     socials: {
       linkedin: 'https://www.linkedin.com/in/carlton-king/',
-      x: 'https://x.com/CarltonKing01',
       github: 'https://github.com/wp8vhk9d46-cmyk',
     },
   },
@@ -247,6 +246,7 @@ const CREATORS = [
     role: 'Co-Founder',
     photo: '/Rohan.png',
     socials: {
+      linkedin: 'https://www.linkedin.com/in/rohan-ramdhani-883557241/',
       github: 'https://github.com/Rosvawe12',
     },
   },
@@ -317,7 +317,7 @@ export default function App() {
               </button>
             ))}
             <button
-              onClick={() => scrollTo('hero')}
+              onClick={() => scrollTo('install')}
               className="text-sm font-medium px-5 py-2 rounded-full text-white cursor-pointer transition-opacity hover:opacity-85"
               style={{ backgroundColor: ACCENT }}
             >
@@ -372,6 +372,7 @@ export default function App() {
           <RevealSection delay={0.3}>
             <div className="mt-10 flex flex-col sm:flex-row gap-4 justify-center">
               <button
+                onClick={() => scrollTo('install')}
                 className="px-8 py-3.5 rounded-full text-white font-medium text-sm tracking-wide cursor-pointer transition-opacity hover:opacity-85"
                 style={{ backgroundColor: ACCENT }}
               >
@@ -460,7 +461,7 @@ export default function App() {
       </section>
 
       {/* Terminal Install */}
-      <section className="py-24 px-6 bg-black">
+      <section id="install" className="py-24 px-6 bg-black">
         <div className="max-w-4xl mx-auto">
           <RevealSection className="text-center mb-10">
             <h2 className="text-3xl md:text-5xl font-bold tracking-tight">
@@ -572,7 +573,7 @@ export default function App() {
       </section>
 
       {/* ── Footer ── */}
-      <footer className="border-t border-white/[0.08] py-16 px-6">
+      <footer className="border-t border-white/[0.08] py-8 px-6">
         <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
           <img src="/Logo2.png" alt="Alfred" className="h-16 w-16 object-contain" />
           <div className="flex items-center gap-8">
