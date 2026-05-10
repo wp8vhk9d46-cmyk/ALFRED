@@ -260,7 +260,7 @@ export default function App() {
   const [downloadStarted, setDownloadStarted] = useState(false)
   const [commandCopied, setCommandCopied] = useState(false)
 
-  const INSTALL_COMMAND = 'curl -fsSL https://raw.githubusercontent.com/YOURNAME/alfred/main/install.sh | bash'
+  const INSTALL_COMMAND = 'curl -fsSL https://raw.githubusercontent.com/carltonking/alfred/main/install.sh | bash'
 
   const copyInstallCommand = async () => {
     try {
@@ -517,10 +517,19 @@ export default function App() {
             <div className="mt-5 flex items-center justify-center gap-6 text-sm text-white/30">
               <span>macOS 12.3+</span>
               <span>·</span>
-              <span>Requires Anthropic API key</span>
-              <span>·</span>
               <span>No account needed</span>
             </div>
+            <p className="mt-3 text-sm text-white/35">
+              Needs an Anthropic API key —{' '}
+              <a
+                href="https://console.anthropic.com/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-white/55 underline underline-offset-2 hover:text-white transition-colors"
+              >
+                get one free here
+              </a>
+            </p>
 
             {/* Divider */}
             <div className="flex items-center gap-4 my-10">
