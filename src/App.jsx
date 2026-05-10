@@ -206,12 +206,12 @@ const FEATURES = [
 ]
 
 const STEPS = [
-  { number: '01', title: 'Install Locally', description: 'One command. Runs on your machine — no cloud, no accounts, no data leaves your device.' },
+  { number: '01', title: 'Download', description: 'One click. Runs on your machine — no cloud, no accounts, no data leaves your device.' },
   { number: '02', title: 'Alfred Observes', description: 'Watches your patterns silently. Learns what you do, when, and how — then suggests automations.' },
   { number: '03', title: 'You Focus', description: 'Small tasks vanish. Repetitive work disappears. You spend time on what actually matters.' },
 ]
 
-const INSTALL_COMMAND = 'PASTE COMMAND HERE'
+const DOWNLOAD_URL = '/Alfred-v1.0.zip'
 
 const SOCIAL_ICONS = {
   linkedin: (
@@ -235,7 +235,7 @@ const CREATORS = [
   {
     name: 'Carlton King',
     role: 'Co-Founder',
-    photo: '/Carlton.png',
+    photo: '/Carlton2.png',
     socials: {
       linkedin: 'https://www.linkedin.com/in/carlton-king/',
       github: 'https://github.com/wp8vhk9d46-cmyk',
@@ -257,18 +257,10 @@ const NAV_LINKS = ['Features', 'How It Works', 'About']
 export default function App() {
   const [scrolled, setScrolled] = useState(false)
   const [mobileOpen, setMobileOpen] = useState(false)
+  const [downloadStarted, setDownloadStarted] = useState(false)
   const [commandCopied, setCommandCopied] = useState(false)
 
-  useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 20)
-    window.addEventListener('scroll', onScroll, { passive: true })
-    return () => window.removeEventListener('scroll', onScroll)
-  }, [])
-
-  const scrollTo = (id) => {
-    setMobileOpen(false)
-    document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' })
-  }
+  const INSTALL_COMMAND = 'curl -fsSL https://raw.githubusercontent.com/YOURNAME/alfred/main/install.sh | bash'
 
   const copyInstallCommand = async () => {
     try {
@@ -284,9 +276,24 @@ export default function App() {
       document.execCommand('copy')
       document.body.removeChild(textarea)
     }
-
     setCommandCopied(true)
     window.setTimeout(() => setCommandCopied(false), 1600)
+  }
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 20)
+    window.addEventListener('scroll', onScroll, { passive: true })
+    return () => window.removeEventListener('scroll', onScroll)
+  }, [])
+
+  const scrollTo = (id) => {
+    setMobileOpen(false)
+    document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' })
+  }
+
+  const handleDownload = () => {
+    setDownloadStarted(true)
+    window.setTimeout(() => setDownloadStarted(false), 3000)
   }
 
   return (
@@ -316,13 +323,15 @@ export default function App() {
                 {link}
               </button>
             ))}
-            <button
-              onClick={() => scrollTo('install')}
+            <a
+              href={DOWNLOAD_URL}
+              download
+              onClick={handleDownload}
               className="text-sm font-medium px-5 py-2 rounded-full text-white cursor-pointer transition-opacity hover:opacity-85"
-              style={{ backgroundColor: ACCENT }}
+              style={{ backgroundColor: ACCENT, textDecoration: 'none' }}
             >
-              Get Started
-            </button>
+              Download
+            </a>
           </div>
 
           {/* Mobile hamburger */}
@@ -348,6 +357,15 @@ export default function App() {
                 {link}
               </button>
             ))}
+            <a
+              href={DOWNLOAD_URL}
+              download
+              onClick={handleDownload}
+              className="text-sm font-medium px-5 py-2 rounded-full text-white cursor-pointer text-left mt-2 inline-block"
+              style={{ backgroundColor: ACCENT, textDecoration: 'none' }}
+            >
+              Download
+            </a>
           </div>
         )}
       </nav>
@@ -371,13 +389,19 @@ export default function App() {
           </RevealSection>
           <RevealSection delay={0.3}>
             <div className="mt-10 flex flex-col sm:flex-row gap-4 justify-center">
-              <button
-                onClick={() => scrollTo('install')}
-                className="px-8 py-3.5 rounded-full text-white font-medium text-sm tracking-wide cursor-pointer transition-opacity hover:opacity-85"
-                style={{ backgroundColor: ACCENT }}
+              <a
+                href={DOWNLOAD_URL}
+                download
+                onClick={handleDownload}
+                className="px-8 py-3.5 rounded-full text-white font-medium text-sm tracking-wide cursor-pointer transition-opacity hover:opacity-85 inline-flex items-center gap-2"
+                style={{ backgroundColor: ACCENT, textDecoration: 'none' }}
               >
-                Download for Mac
-              </button>
+                <svg viewBox="0 0 20 20" fill="currentColor" style={{ width: 16, height: 16 }}>
+                  <path d="M10 2a1 1 0 011 1v8.586l2.293-2.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 111.414-1.414L9 11.586V3a1 1 0 011-1z"/>
+                  <path d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z"/>
+                </svg>
+                {downloadStarted ? 'Downloading…' : 'Download for Mac'}
+              </a>
               <button
                 onClick={() => scrollTo('how-it-works')}
                 className="px-8 py-3.5 rounded-full border border-white/15 text-sm font-medium tracking-wide cursor-pointer hover:border-white/30 transition-colors"
@@ -460,16 +484,52 @@ export default function App() {
         </div>
       </section>
 
-      {/* Terminal Install */}
+      {/* Download + Terminal Install */}
       <section id="install" className="py-24 px-6 bg-black">
-        <div className="max-w-4xl mx-auto">
-          <RevealSection className="text-center mb-10">
-            <h2 className="text-3xl md:text-5xl font-bold tracking-tight">
-              What are you waiting for? Your future self will thank you.
-            </h2>
-          </RevealSection>
-
+        <div className="max-w-2xl mx-auto text-center">
           <RevealSection>
+            <h2 className="text-3xl md:text-5xl font-bold tracking-tight mb-4">
+              What are you waiting for?
+            </h2>
+            <p className="text-white/55 font-light text-lg mb-10">
+              Your future self will thank you.
+            </p>
+
+            {/* Primary download button */}
+            <a
+              href={DOWNLOAD_URL}
+              download
+              onClick={handleDownload}
+              className="inline-flex items-center gap-3 px-10 py-5 rounded-2xl text-white font-semibold text-lg cursor-pointer transition-all hover:opacity-90 hover:-translate-y-0.5"
+              style={{
+                backgroundColor: ACCENT,
+                textDecoration: 'none',
+                boxShadow: '0 0 60px rgba(10,22,40,0.6)',
+              }}
+            >
+              <svg viewBox="0 0 20 20" fill="currentColor" style={{ width: 22, height: 22 }}>
+                <path d="M10 2a1 1 0 011 1v8.586l2.293-2.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 111.414-1.414L9 11.586V3a1 1 0 011-1z"/>
+                <path d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z"/>
+              </svg>
+              {downloadStarted ? 'Downloading…' : 'Download Now — Free'}
+            </a>
+
+            <div className="mt-5 flex items-center justify-center gap-6 text-sm text-white/30">
+              <span>macOS 12.3+</span>
+              <span>·</span>
+              <span>Requires Anthropic API key</span>
+              <span>·</span>
+              <span>No account needed</span>
+            </div>
+
+            {/* Divider */}
+            <div className="flex items-center gap-4 my-10">
+              <div className="flex-1 h-px bg-white/[0.08]" />
+              <span className="text-xs text-white/25 font-light tracking-widest uppercase">or use the terminal</span>
+              <div className="flex-1 h-px bg-white/[0.08]" />
+            </div>
+
+            {/* Terminal block */}
             <div className="overflow-hidden rounded-2xl border border-white/[0.1] bg-[#060a12] shadow-[0_28px_110px_rgba(58,122,191,0.14)]">
               <div className="h-11 border-b border-white/[0.08] bg-white/[0.04] px-4 grid grid-cols-[1fr_auto_1fr] items-center">
                 <div className="group flex items-center gap-2" aria-hidden="true">
@@ -501,7 +561,6 @@ export default function App() {
                     {INSTALL_COMMAND}
                   </code>
                 </div>
-
                 <button
                   type="button"
                   onClick={copyInstallCommand}
